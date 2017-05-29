@@ -1,5 +1,5 @@
 # Custom
-config\database.js
+config/database.js
 
 # Logs
 logs
