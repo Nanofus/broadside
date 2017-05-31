@@ -3,6 +3,11 @@
 var express = require('express');
 var path = require('path');
 
+var mysql = require('mysql');
+var dbconfig = require('./database');
+var connection = mysql.createConnection(dbconfig.connection);
+connection.query('USE ' + dbconfig.database);
+
 module.exports = function(app, passport) {
 
 	// =====================================
@@ -30,7 +35,25 @@ module.exports = function(app, passport) {
 	router.get('/user-data', function(req, res) {
 		res.json(req.user);
 	});
-	
+
+	router.get('/posts/list', function(req, res) {
+		connection.query("SELECT Id, Header FROM Post", function(err, rows){
+	    if (!err)
+				res.json(rows);
+	    else
+				res.json({ message: 'Error in API' });
+		});
+	});
+
+	router.get('/posts/:id', function(req, res) {
+		connection.query("SELECT Header, Text FROM Post WHERE Id = ?",[req.params.id], function(err, rows){
+			if (!err)
+				res.json(rows);
+			else
+				res.json({ message: 'Error in API' });
+		});
+	});
+
 	app.use('/api', router);
 
 };

@@ -3,12 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="./front.js"></script>
 </head>
 <body>
     <header>KLAANON</header>
-    <main>
-        <article>Ayyyyy</article>
+    <main id="app">
+        <div id="post-list">
+          <h2>Postaukset ({{ postList.length }})</h2>
+          <ul>
+            <li v-for="post in postList">
+              {{ post.Header }}
+            </li>
+          </ul>
+        </div>
+        <article></article>
         <aside>
           <div id="login-form">
             <h3>Profile</h3>
@@ -49,5 +56,7 @@
         </aside>
     </main>
     <footer></footer>
+
+    <script src="./bundle.js"></script>
 </body>
 </html>
