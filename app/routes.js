@@ -6,7 +6,7 @@ var path = require('path');
 var finalhandler = require('finalhandler')
 var serveStatic = require('serve-static')
 
-var serve = serveStatic('public', {'index': ['index.html', 'index.htm']})
+var serve = serveStatic('public', {'index': ['index.html']})
 
 module.exports = function(app, passport) {
 
@@ -52,7 +52,7 @@ module.exports = function(app, passport) {
             } else {
               req.session.cookie.expires = false;
             }
-        res.redirect('/');
+        res.send(req.user);
     });
 
 	// =====================================
