@@ -5,58 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-    <header>KLAANON</header>
-    <main id="app">
-        <div id="post-list">
-          <h2>Postaukset ({{ postList.length }})</h2>
-          <ul>
-            <li v-for="post in postList">
-              {{ post.Header }}
-            </li>
-          </ul>
-        </div>
-        <article></article>
-        <aside>
-          <div id="login-form">
-            <h3>Profile</h3>
-            <a href="/api/logout" class="btn btn-default btn-sm">Logout</a>
-            <h3>Login</h3>
-            <form action="/api/login" method="post">
-                <div class="form-group">
-                    <label>Username</label>
-                    <input type="text" class="form-control" name="username">
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" class="form-control" name="password">
-                </div>
-                <div class="form-group">
-                    <label>Remember Me</label>
-                    <input type="checkbox" class="form-control" name="remember" value="yes">
-                </div>
-
-                <button type="submit" class="btn btn-warning btn-lg">Login</button>
-            </form>
-
-            <h3>Sign up</h3>
-
-            <form action="/api/signup" method="post">
-              <div class="form-group">
-                <label>Username</label>
-                <input type="text" class="form-control" name="username">
-              </div>
-              <div class="form-group">
-                <label>Password</label>
-                <input type="password" class="form-control" name="password">
-              </div>
-
-              <button type="submit" class="btn btn-warning btn-lg">Signup</button>
-            </form>
-          </div>
-        </aside>
-    </main>
-    <footer></footer>
-
-    <script src="./bundle.js"></script>
+  <div id="app"></div>
+  <script src="/bundle.js"></script>
 </body>
 </html>

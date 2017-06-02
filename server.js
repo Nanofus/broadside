@@ -9,9 +9,10 @@ var bodyParser    = require('body-parser');
 var path 					= require('path');
 var app           = express();
 var port          = process.env.PORT || 8080;
+var connect				= require('connect');
+var history 			= require('connect-history-api-fallback');
 
 var passport 			= require('passport');
-var flash         = require('connect-flash');
 
 // configuration ===============================================================
 // connect to our database
@@ -33,11 +34,11 @@ app.use(session({
  } )); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
-app.use(flash()); // use connect-flash for flash messages stored in session
 
 // routes ======================================================================
 require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 
+app.use(history());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // launch ======================================================================
