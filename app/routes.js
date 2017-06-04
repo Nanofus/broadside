@@ -46,11 +46,24 @@ module.exports = function(app, passport) {
 	});
 
 	router.get('/posts/:id', function(req, res) {
-		connection.query("SELECT Header, Text FROM Post WHERE Id = ?",[req.params.id], function(err, rows){
-			if (!err)
-				res.json(rows);
-			else
+		connection.query(`
+			SELECT p.Header, p.Text, p.CreatedTimestamp, p.ModifiedTimestamp, p.CategoryId, u.Username
+			FROM Post p
+			JOIN PostUser pu ON p.Id = pu.PostId
+			JOIN Users u on pu.UserId = u.Id
+			WHERE p.Id = ?
+			`,[req.params.id], function(err, rows){
+			if (!err) {
+				let data = rows[0];
+				data.Users = [];
+				for (let row of rows) {
+					data.Users.push(row.Username);
+				}
+				delete data.Username;
+				res.json(data);
+			} else {
 				res.json({ message: 'Error in API' });
+			}
 		});
 	});
 

@@ -1,7 +1,12 @@
 <template>
   <div>
-    <h3>Postaus {{ post.Header }}</h3>
-    <div v-html="post.Text"></div>
+    <div class="main-content">
+      <h2 id="post-title">{{ post.Header }}</h2>
+      <ul id="poster-list">
+        <li v-for="user in post.Users">{{ user }}</li>
+      </ul>
+      <article id="post-content" v-html="post.Text"></article>
+    </div>
   </div>
 </template>
 
@@ -24,7 +29,7 @@ export default {
   },
   methods: {
     loadPostList() {
-      request.get("/posts/" + this.$route.params.id).then(response => { this.post = response.data[0] });
+      request.get("/posts/" + this.$route.params.id).then(response => { this.post = response.data });
     }
   },
   created() {

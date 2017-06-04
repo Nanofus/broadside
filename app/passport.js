@@ -52,10 +52,14 @@ module.exports = function(passport) {
                 if (err)
                     return done(err);
                 if (rows.length) {
-                    return done(null, false, req.flash('signupMessage', 'That username is already taken.'));
+                    return done(null, false, "That username is already taken");
                 } else {
                     // if there is no user with that username
                     // create the user
+
+                    require("axios").post("https://www.google.com/recaptcha/api/siteverify")
+                      .then(response => { console.log(response.data.success) });
+
                     var newUserMysql = {
                         Username: username,
                         Password: bcrypt.hashSync(password, null, null)  // use the generateHash function in our user model

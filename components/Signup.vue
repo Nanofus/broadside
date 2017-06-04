@@ -11,6 +11,8 @@
         <input type="password" class="form-control" name="password">
       </div>
 
+      <div class="g-recaptcha" data-sitekey="6LeP-SMUAAAAAD9jz3za3PwKznI0Sw2GCrHJoiaK"></div>
+
       <button type="submit" class="btn btn-warning btn-lg">Signup</button>
     </form>
   </div>

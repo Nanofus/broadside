@@ -4,7 +4,9 @@
   "description": "A lightweight CMS for collaborative publishing",
   "main": "app.js",
   "scripts": {
-    "start": "webpack && node server.js"
+    "build": "npm run style & webpack",
+    "start": "npm run build & node server.js",
+    "style": "node-sass scss/style.scss public/style.css"
   },
   "dependencies": {
     "axios": "^0.16.1",
@@ -25,7 +27,8 @@
     "vue-html-loader": "^1.2.4",
     "vue-loader": "^12.2.1",
     "vue-template-compiler": "^2.3.3",
-    "webpack": "^2.6.1"
+    "webpack": "^2.6.1",
+    "node-sass": "^4.5.3"
   },
   "repository": {
     "type": "git",

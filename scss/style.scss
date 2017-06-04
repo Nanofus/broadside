@@ -1,0 +1,93 @@
+
+$text-color: #333;
+$background-color: #FFF;
+$link-color: #03a9f4;
+$visited-color: #039be5;
+
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+}
+
+body {
+  margin: 0 0 2rem 0;
+
+  font-family: 'PT Serif', serif;
+  font-size: 1rem;
+  color: $text-color;
+
+  background-color: $background-color;
+
+  a {
+    text-decoration: none;
+    &:link {
+      color: $link-color;
+    }
+    &:visited {
+      color: $visited-color;
+    }
+    &:hover {
+      color: $visited-color;
+    }
+    &:active {
+      color: $visited-color;
+    }
+  }
+
+  header {
+    margin: 0 auto 1rem auto;
+
+    height: 200px;
+    width: 1200px;
+    background-image: url("images/header.png");
+  }
+
+  main {
+    margin: 1rem auto 0 auto;
+    max-width: 40rem;
+
+    h2 {
+      font-size: 2rem;
+    }
+
+    #poster-list li {
+      display: inline;
+      list-style-type: none;
+      padding-right: 2rem;
+    }
+
+    article {
+      margin: 2rem auto 1rem auto;
+      max-width: 32rem;
+
+      h3 {
+        font-size: 1.5rem;
+      }
+    }
+
+    .main-content {
+      margin: 0 2rem 0 2rem;
+    }
+  }
+
+  footer {
+    margin: 1rem auto 0 auto;
+    padding: 1rem 0 0 0;
+
+    position: absolute;
+    bottom: 0;
+    height: 2rem;
+    width: 100%;
+
+    font-size: 80%;
+    text-align: center;
+    color: $background-color;
+    background-color: $text-color;
+  }
+
+}
