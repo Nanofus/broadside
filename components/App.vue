@@ -88,19 +88,19 @@ export default {
       var x = document.getElementById("info-toast")
       x.innerHTML = text;
       x.classList.add("show");
-      setTimeout(()=>{ x.classList.remove("show"); }, 3000);
+      setTimeout(()=>{ x.classList.remove("show"); }, 2000);
     },
     successToast(text) {
       var x = document.getElementById("success-toast")
       x.innerHTML = text;
       x.classList.add("show");
-      setTimeout(()=>{ x.classList.remove("show"); }, 3000);
+      setTimeout(()=>{ x.classList.remove("show"); }, 2000);
     },
     errorToast(text) {
       var x = document.getElementById("error-toast")
       x.innerHTML = text;
       x.classList.add("show");
-      setTimeout(()=>{ x.classList.remove("show"); }, 3000);
+      setTimeout(()=>{ x.classList.remove("show"); }, 2000);
     }
   },
   created() {

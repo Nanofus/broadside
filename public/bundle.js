@@ -13524,7 +13524,6 @@ const router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
 new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
   el: '#app',
   router,
-  // replace the content of <div id="app"></div> with App
   render: h => h(__WEBPACK_IMPORTED_MODULE_2__components_App_vue___default.a)
 });
 
@@ -16484,19 +16483,19 @@ var store = {
       var x = document.getElementById("info-toast")
       x.innerHTML = text;
       x.classList.add("show");
-      setTimeout(()=>{ x.classList.remove("show"); }, 3000);
+      setTimeout(()=>{ x.classList.remove("show"); }, 2000);
     },
     successToast(text) {
       var x = document.getElementById("success-toast")
       x.innerHTML = text;
       x.classList.add("show");
-      setTimeout(()=>{ x.classList.remove("show"); }, 3000);
+      setTimeout(()=>{ x.classList.remove("show"); }, 2000);
     },
     errorToast(text) {
       var x = document.getElementById("error-toast")
       x.innerHTML = text;
       x.classList.add("show");
-      setTimeout(()=>{ x.classList.remove("show"); }, 3000);
+      setTimeout(()=>{ x.classList.remove("show"); }, 2000);
     }
   },
   created() {
