@@ -16,6 +16,9 @@
     <footer>
       Powered by <a href="https://github.com/nanofus/broadside">Broadside</a>
     </footer>
+    <div class="toast" id="info-toast"></div>
+    <div class="toast" id="success-toast"></div>
+    <div class="toast" id="error-toast"></div>
   </div>
 </template>
 
@@ -72,6 +75,7 @@ export default {
           this.store.userData.Username = '';
           this.store.userData.Role = 0;
           this.$router.replace(this.$route.query.redirect || '/');
+          this.successToast("Logout successful.")
         });
     },
     loggedIn() {
@@ -79,6 +83,24 @@ export default {
         return true;
       }
       return false;
+    },
+    infoToast(text) {
+      var x = document.getElementById("info-toast")
+      x.innerHTML = text;
+      x.classList.add("show");
+      setTimeout(()=>{ x.classList.remove("show"); }, 3000);
+    },
+    successToast(text) {
+      var x = document.getElementById("success-toast")
+      x.innerHTML = text;
+      x.classList.add("show");
+      setTimeout(()=>{ x.classList.remove("show"); }, 3000);
+    },
+    errorToast(text) {
+      var x = document.getElementById("error-toast")
+      x.innerHTML = text;
+      x.classList.add("show");
+      setTimeout(()=>{ x.classList.remove("show"); }, 3000);
     }
   },
   created() {

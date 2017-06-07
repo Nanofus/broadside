@@ -38,20 +38,17 @@ export default {
   },
   methods: {
     login() {
-      console.log(this.username, this.password, this.rememberMe);
       request.post("/signup", {
         username: this.username,
         password: this.password,
         remember: this.remember
       }).then(response => {
-        if (response.result !== false) {
-          this.$parent.store.userData = response.data;
-          console.log(response, this.$parent.store.userData);
-          this.$router.replace(this.$route.query.redirect || '/');
-        }
-      }).catch(function (error) {
+        this.$parent.store.userData = response.data;
+        this.$parent.successToast("Signup successful.")
+        this.$router.replace(this.$route.query.redirect || '/');
+      }).catch(error => {
         if (error.response) {
-          console.log(error.response.headers);
+          this.$parent.errorToast(error.response.headers['www-authenticate'])
         }
       });
     }

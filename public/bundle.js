@@ -16415,6 +16415,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -16468,6 +16471,7 @@ var store = {
           this.store.userData.Username = '';
           this.store.userData.Role = 0;
           this.$router.replace(this.$route.query.redirect || '/');
+          this.successToast("Logout successful.")
         });
     },
     loggedIn() {
@@ -16475,6 +16479,24 @@ var store = {
         return true;
       }
       return false;
+    },
+    infoToast(text) {
+      var x = document.getElementById("info-toast")
+      x.innerHTML = text;
+      x.classList.add("show");
+      setTimeout(()=>{ x.classList.remove("show"); }, 3000);
+    },
+    successToast(text) {
+      var x = document.getElementById("success-toast")
+      x.innerHTML = text;
+      x.classList.add("show");
+      setTimeout(()=>{ x.classList.remove("show"); }, 3000);
+    },
+    errorToast(text) {
+      var x = document.getElementById("error-toast")
+      x.innerHTML = text;
+      x.classList.add("show");
+      setTimeout(()=>{ x.classList.remove("show"); }, 3000);
     }
   },
   created() {
@@ -16583,20 +16605,17 @@ var request = __WEBPACK_IMPORTED_MODULE_0_axios___default.a.create({
   },
   methods: {
     login() {
-      console.log(this.username, this.password, this.rememberMe);
       request.post("/login", {
         username: this.username,
         password: this.password,
         remember: this.remember
       }).then(response => {
-        if (response.result !== false) {
-          this.$parent.store.userData = response.data;
-          console.log(response, this.$parent.store.userData);
-          this.$router.replace(this.$route.query.redirect || '/');
-        }
-      }).catch(function (error) {
+        this.$parent.store.userData = response.data;
+        this.$parent.successToast("Login successful.")
+        this.$router.replace(this.$route.query.redirect || '/');
+      }).catch(error => {
         if (error.response) {
-          console.log(error.response.headers);
+          this.$parent.errorToast(error.response.headers['www-authenticate'])
         }
       });
     }
@@ -16705,20 +16724,17 @@ var request = __WEBPACK_IMPORTED_MODULE_0_axios___default.a.create({
   },
   methods: {
     login() {
-      console.log(this.username, this.password, this.rememberMe);
       request.post("/signup", {
         username: this.username,
         password: this.password,
         remember: this.remember
       }).then(response => {
-        if (response.result !== false) {
-          this.$parent.store.userData = response.data;
-          console.log(response, this.$parent.store.userData);
-          this.$router.replace(this.$route.query.redirect || '/');
-        }
-      }).catch(function (error) {
+        this.$parent.store.userData = response.data;
+        this.$parent.successToast("Signup successful.")
+        this.$router.replace(this.$route.query.redirect || '/');
+      }).catch(error => {
         if (error.response) {
-          console.log(error.response.headers);
+          this.$parent.errorToast(error.response.headers['www-authenticate'])
         }
       });
     }
@@ -16880,7 +16896,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("Hei, " + _vm._s(_vm.store.userData.Username))]) : _vm._e()])]), _vm._v(" "), _c('main', [_c('router-view', {
     staticClass: "view"
-  })], 1), _vm._v(" "), _vm._m(0)])
+  })], 1), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "toast",
+    attrs: {
+      "id": "info-toast"
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "toast",
+    attrs: {
+      "id": "success-toast"
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "toast",
+    attrs: {
+      "id": "error-toast"
+    }
+  })])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('footer', [_vm._v("\n    Powered by "), _c('a', {
     attrs: {
@@ -17003,11 +17034,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "id": "post-list"
     }
   }, [_c('ul', _vm._l((_vm.postList), function(post) {
-    return _c('li', [_c('a', {
+    return _c('li', [_c('router-link', {
       attrs: {
-        "href": 'post/' + post.Id
+        "to": 'post/' + post.Id
       }
-    }, [_vm._v(_vm._s(post.Header))])])
+    }, [_vm._v(_vm._s(post.Header))])], 1)
   }))])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true

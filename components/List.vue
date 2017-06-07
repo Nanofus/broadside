@@ -4,7 +4,7 @@
     <div id="post-list">
       <ul>
         <li v-for="post in postList">
-          <a :href="'post/' + post.Id">{{ post.Header }}</a>
+          <router-link :to="'post/' + post.Id">{{ post.Header }}</router-link>
         </li>
       </ul>
     </div>
