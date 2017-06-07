@@ -1,43 +1,59 @@
 <template>
   <div>
     <h3>Login</h3>
-    <form action="/api/login" method="post">
-      <div class="form-group">
+    <form>
+      <div>
         <label>Username</label>
-        <input type="text" class="form-control" name="username">
+        <input type="text" v-model="username" name="username">
       </div>
-      <div class="form-group">
+      <div>
         <label>Password</label>
-        <input type="password" class="form-control" name="password">
+        <input type="password" v-model="password" name="password">
       </div>
-      <div class="form-group">
+      <div>
         <label>Remember Me</label>
-        <input type="checkbox" class="form-control" name="remember" value="yes">
+        <input type="checkbox" v-model="remember" name="remember" value="yes">
       </div>
 
-      <button type="submit" class="btn btn-warning btn-lg">Login</button>
+      <button type="button" v-on:click="login()">Login</button>
     </form>
   </div>
 </template>
 
 <script>
+
+import axios from 'axios'
+var request = axios.create({
+  baseURL: '/api',
+  timeout: 1000
+});
+
 export default {
   data () {
     return {
-      email: 'joe@example.com',
-      pass: '',
-      error: false
+      username: '',
+      password: '',
+      remember: false
     }
   },
   methods: {
-    login () {
-      auth.login(this.email, this.pass, loggedIn => {
-        if (!loggedIn) {
-          this.error = true
-        } else {
-          this.$router.replace(this.$route.query.redirect || '/')
+    login() {
+      console.log(this.username, this.password, this.rememberMe);
+      request.post("/login", {
+        username: this.username,
+        password: this.password,
+        remember: this.remember
+      }).then(response => {
+        if (response.result !== false) {
+          this.$parent.store.userData = response.data;
+          console.log(response, this.$parent.store.userData);
+          this.$router.replace(this.$route.query.redirect || '/');
         }
-      })
+      }).catch(function (error) {
+        if (error.response) {
+          console.log(error.response.headers);
+        }
+      });
     }
   }
 }

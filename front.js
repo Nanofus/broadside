@@ -20,11 +20,11 @@ const router = new VueRouter({
     { path: '/signup', component: Signup },
     { path: '*', component: NotFound }
   ]
-})
+});
 
 new Vue({
   el: '#app',
   router,
   // replace the content of <div id="app"></div> with App
   render: h => h(App)
-})
+});

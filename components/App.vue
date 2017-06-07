@@ -1,10 +1,13 @@
 <template>
   <div>
     <header>
-      <ul>
+      <div id="header-image"></div>
+      <ul id="main-menu">
         <li><router-link to="/">Etusivu</router-link></li>
-        <li><router-link to="/login">Kirjaudu sisään</router-link></li>
-        <li><router-link to="/signup">Rekisteröidy</router-link></li>
+        <li v-if="!loggedIn()"><router-link to="/login">Kirjaudu sisään</router-link></li>
+        <li v-if="!loggedIn()"><router-link to="/signup">Rekisteröidy</router-link></li>
+        <li v-if="loggedIn()"><a href="#" v-on:click="logout()">Kirjaudu ulos</a></li>
+        <div id="user-info" v-if="loggedIn()">Hei, {{ store.userData.Username }}</div>
       </ul>
     </header>
     <main>
@@ -23,12 +26,26 @@ var request = axios.create({
   baseURL: '',
   timeout: 1000
 });
+var apiRequest = axios.create({
+  baseURL: '/api',
+  timeout: 1000
+});
+
+
+var store = {
+  debug: true,
+  userData: {
+    Username: '',
+    Role: 0
+  }
+}
 
 export default {
   data() {
     return {
       translations: {},
-      config: {}
+      config: {},
+      store: store
     }
   },
   props: {
@@ -40,10 +57,33 @@ export default {
         .then(response => {
           this.config = response.data;
         });
+    },
+    loadLoggedInUser() {
+      apiRequest.get("/user-data")
+        .then(response => {
+          if (response.data !== '') {
+            this.store.userData = response.data;
+          }
+        });
+    },
+    logout() {
+      apiRequest.get("/logout")
+        .then(response => {
+          this.store.userData.Username = '';
+          this.store.userData.Role = 0;
+          this.$router.replace(this.$route.query.redirect || '/');
+        });
+    },
+    loggedIn() {
+      if (this.store.userData.Username !== '') {
+        return true;
+      }
+      return false;
     }
   },
   created() {
     this.loadConfig();
+    this.loadLoggedInUser();
   }
 }
 </script>

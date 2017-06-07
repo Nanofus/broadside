@@ -15,54 +15,69 @@ module.exports = function(app, passport) {
 	// =====================================
 
 	var router = express.Router();
-	router.get('/', isLoggedIn, function(req, res) {
+	router.get('/', isLoggedIn, (req, res) => {
 	  res.json({ message: 'hooray! welcome to our api!' });
 	});
-	router.post('/login', passport.authenticate('local-login'), function(req, res) {
-    if (req.body.remember) {
+
+	router.post('/login', passport.authenticate('local-login'), (req, res) => {
+		if (req.body.remember) {
       req.session.cookie.maxAge = 1000 * 60 * 3;
     } else {
       req.session.cookie.expires = false;
     }
     res.json(req.user);
   });
-	router.post('/signup', passport.authenticate('local-signup'), function(req, res) {
-		res.json(req.user);
-	});
-	router.get('/logout', function(req, res) {
-		res.json({ message: "success" });
-	});
-	router.get('/user-data', function(req, res) {
+
+	router.post('/signup', passport.authenticate('local-signup'), (req, res) => {
+		if (req.body.remember) {
+			req.session.cookie.maxAge = 1000 * 60 * 3;
+		} else {
+			req.session.cookie.expires = false;
+		}
 		res.json(req.user);
 	});
 
-	router.get('/posts/list', function(req, res) {
-		connection.query("SELECT Id, Header FROM Post", function(err, rows){
+	router.get('/logout', (req, res) => {
+		req.logout();
+		res.json({ result: true });
+	});
+
+	router.get('/user-data', (req, res) => {
+		res.json(req.user);
+	});
+
+	router.get('/posts/list', (req, res) => {
+		connection.query("SELECT Id, Header FROM Post", (err, rows) => {
 	    if (!err)
 				res.json(rows);
 	    else
-				res.json({ message: 'Error in API' });
+				res.json({ message: false });
 		});
 	});
 
-	router.get('/posts/:id', function(req, res) {
+	router.get('/posts/:id', (req, res) => {
 		connection.query(`
-			SELECT p.Header, p.Text, p.CreatedTimestamp, p.ModifiedTimestamp, p.CategoryId, u.Username
-			FROM Post p
-			JOIN PostUser pu ON p.Id = pu.PostId
-			JOIN Users u on pu.UserId = u.Id
-			WHERE p.Id = ?
-			`,[req.params.id], function(err, rows){
+			SELECT Header, Text, CreatedTimestamp, ModifiedTimestamp, CategoryId
+			FROM Post
+			WHERE Id = ?
+			`,[req.params.id], (err, rows) => {
 			if (!err) {
-				let data = rows[0];
-				data.Users = [];
-				for (let row of rows) {
-					data.Users.push(row.Username);
-				}
-				delete data.Username;
-				res.json(data);
+				let postData = rows[0];
+				connection.query(`
+					SELECT u.Username
+					FROM Users u
+					JOIN PostUser pu ON pu.UserId = u.Id
+					WHERE pu.PostId = ?
+					`,[req.params.id], (err, innerRows) => {
+						postData.Users = [];
+						for (let row of innerRows) {
+							postData.Users.push(row.Username);
+						}
+						delete postData.Username;
+						res.json(postData);
+				});
 			} else {
-				res.json({ message: 'Error in API' });
+				res.json({ result: false });
 			}
 		});
 	});
@@ -75,5 +90,5 @@ module.exports = function(app, passport) {
 function isLoggedIn(req, res, next) {
 	if (req.isAuthenticated())
 		return next();
-	res.json({ message: "You are not logged in." });
+	res.json({ result: false });
 }

@@ -27,7 +27,12 @@ export default {
   },
   methods: {
     loadPostList() {
-      request.get("/posts/list").then(response => { this.postList = response.data });
+      request.get("/posts/list").then(response => {
+        this.postList = response.data;
+        this.postList.sort(function(a,b){
+          return new Date(b.CreatedTimestamp) - new Date(a.CreatedTimestamp);
+        });
+      });
     }
   },
   created() {
