@@ -1,6 +1,6 @@
 # Custom
 config/database.js
-public/
+public
 package-lock.json
 
 # Logs
