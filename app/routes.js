@@ -65,7 +65,7 @@ module.exports = function(app, passport) {
 				let postData = rows[0];
 				connection.query(`
 					SELECT u.Username
-					FROM Users u
+					FROM User u
 					JOIN PostUser pu ON pu.UserId = u.Id
 					WHERE pu.PostId = ?
 					`,[req.params.id], (err, innerRows) => {

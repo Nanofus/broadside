@@ -1,7 +1,7 @@
 // config/passport.js
 
 // load all the things we need
-var LocalStrategy   = require('passport-local').Strategy;
+var LocalStrategy = require('passport-local').Strategy;
 
 // load up the user model
 var mysql = require('mysql');
@@ -26,7 +26,7 @@ module.exports = function(passport) {
 
     // used to deserialize the user
     passport.deserializeUser(function(id, done) {
-        connection.query("SELECT * FROM Users WHERE Id = ?",[id], function(err, rows){
+        connection.query("SELECT * FROM User WHERE Id = ?",[id], function(err, rows){
             done(err, rows[0]);
         });
     });
@@ -48,7 +48,7 @@ module.exports = function(passport) {
         function(req, username, password, done) {
             // find a user whose email is the same as the forms email
             // we are checking to see if the user trying to login already exists
-            connection.query("SELECT * FROM Users WHERE Username = ?",[username], function(err, rows) {
+            connection.query("SELECT * FROM User WHERE Username = ?",[username], function(err, rows) {
                 if (err)
                     return done(err);
                 if (rows.length) {
@@ -65,7 +65,7 @@ module.exports = function(passport) {
                         Password: bcrypt.hashSync(password, null, null)  // use the generateHash function in our user model
                     };
 
-                    var insertQuery = "INSERT INTO Users ( Username, Password ) values (?,?)";
+                    var insertQuery = "INSERT INTO User ( Username, Password ) values (?,?)";
 
                     connection.query(insertQuery,[newUserMysql.Username, newUserMysql.Password],function(err, rows) {
                         newUserMysql.Id = rows.insertId;
@@ -91,7 +91,7 @@ module.exports = function(passport) {
             passReqToCallback : true // allows us to pass back the entire request to the callback
         },
         function(req, username, password, done) { // callback with email and password from our form
-            connection.query("SELECT * FROM Users WHERE Username = ?",[username], function(err, rows){
+            connection.query("SELECT * FROM User WHERE Username = ?",[username], function(err, rows){
                 let user = rows[0];
 
                 if (err)

@@ -3,7 +3,7 @@ module.exports = {
     'connection': {
         'host': 'localhost',
         'user': 'root',
-        'password': 'salasana'
+        'password': 'admin'
     },
-	  'database': 'klaanon'
+	  'database': 'broadside'
 };
