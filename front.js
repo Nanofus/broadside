@@ -5,9 +5,11 @@ Vue.use(VueRouter)
 
 import App from './components/App.vue'
 import Post from './components/Post.vue'
+import Write from './components/Write.vue'
 import List from './components/List.vue'
 import Login from './components/Login.vue'
 import Signup from './components/Signup.vue'
+import Custom from './components/Custom.vue'
 import NotFound from './components/NotFound.vue'
 
 const router = new VueRouter({
@@ -16,8 +18,10 @@ const router = new VueRouter({
   routes: [
     { path: '/', component: List },
     { path: '/post/:id', component: Post },
+    { path: '/write/:id', component: Write },
     { path: '/login', component: Login },
     { path: '/signup', component: Signup },
+    { path: '/:name', component: Custom },
     { path: '*', component: NotFound }
   ]
 });

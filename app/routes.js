@@ -8,7 +8,7 @@ var dbconfig = require('./database');
 var connection = mysql.createConnection(dbconfig.connection);
 connection.query('USE ' + dbconfig.database);
 
-module.exports = function(app, passport) {
+module.exports = (app, passport) => {
 
 	// =====================================
 	// API =================================
@@ -16,17 +16,17 @@ module.exports = function(app, passport) {
 
 	var router = express.Router();
 	router.get('/', isLoggedIn, (req, res) => {
-	  res.json({ message: 'hooray! welcome to our api!' });
+		res.json({ message: 'hooray! welcome to our api!' });
 	});
 
 	router.post('/login', passport.authenticate('local-login'), (req, res) => {
 		if (req.body.remember) {
-      req.session.cookie.maxAge = 1000 * 60 * 3;
-    } else {
-      req.session.cookie.expires = false;
-    }
-    res.json(req.user);
-  });
+			req.session.cookie.maxAge = 1000 * 60 * 3;
+		} else {
+			req.session.cookie.expires = false;
+		}
+		res.json(req.user);
+	});
 
 	router.post('/signup', passport.authenticate('local-signup'), (req, res) => {
 		if (req.body.remember) {
@@ -48,9 +48,9 @@ module.exports = function(app, passport) {
 
 	router.get('/posts/list', (req, res) => {
 		connection.query("SELECT Id, Header FROM Post", (err, rows) => {
-	    if (!err)
+			if (!err)
 				res.json(rows);
-	    else
+			else
 				res.json({ message: false });
 		});
 	});
@@ -61,25 +61,41 @@ module.exports = function(app, passport) {
 			FROM Post
 			WHERE Id = ?
 			`,[req.params.id], (err, rows) => {
-			if (!err) {
-				let postData = rows[0];
-				connection.query(`
-					SELECT u.Username
-					FROM User u
-					JOIN PostUser pu ON pu.UserId = u.Id
-					WHERE pu.PostId = ?
-					`,[req.params.id], (err, innerRows) => {
-						postData.Users = [];
-						for (let row of innerRows) {
-							postData.Users.push(row.Username);
-						}
-						delete postData.Username;
-						res.json(postData);
+				if (!err) {
+					let postData = rows[0];
+					connection.query(`
+						SELECT u.Username
+						FROM User u
+						JOIN PostUser pu ON pu.UserId = u.Id
+						WHERE pu.PostId = ?
+						`,[req.params.id], (err, innerRows) => {
+							postData.Users = [];
+							for (let row of innerRows) {
+								postData.Users.push(row.Username);
+							}
+							delete postData.Username;
+							res.json(postData);
+						});
+				} else {
+					res.json({ result: false });
+				}
+			});
+	});
+
+	router.post('/write/:id', (req, res) => {
+		if (req.params.id == "new") {
+			connection.query(`
+				INSERT INTO Post
+				VALUES ()
+				`, (err, rows) => {
+					if (!err)
+						res.json(rows);
+					else
+						res.json({ message: false });
 				});
-			} else {
-				res.json({ result: false });
-			}
-		});
+		} else {
+
+		}
 	});
 
 	app.use('/api', router);

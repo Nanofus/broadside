@@ -6,6 +6,7 @@
         <li><router-link to="/">Etusivu</router-link></li>
         <li v-if="!loggedIn()"><router-link to="/login">Kirjaudu sisään</router-link></li>
         <li v-if="!loggedIn()"><router-link to="/signup">Rekisteröidy</router-link></li>
+        <li v-if="loggedIn()"><router-link to="/write/new">Kirjoita uusi osa</router-link></li>
         <li v-if="loggedIn()"><a href="#" v-on:click="logout()">Kirjaudu ulos</a></li>
         <div id="user-info" v-if="loggedIn()">Hei, {{ store.userData.Username }}</div>
       </ul>
