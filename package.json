@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "build": "npm run style & webpack",
-    "start": "npm run build & node server.js",
-    "style": "node-sass src/scss/style.scss public/style.css"
+    "start": "npm run build & node back/server.js",
+    "style": "node-sass front/scss/style.scss public/style.css"
   },
   "dependencies": {
     "axios": "^0.18.0",

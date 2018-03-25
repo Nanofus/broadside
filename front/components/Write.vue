@@ -2,6 +2,7 @@
   <div>
     <div class="main-content">
       <h2 v-if="editing" id="post-title">{{ post.Header }}</h2>
+      <h2 v-if="!editing" id="post-title">New post</h2>
       <ul id="poster-list">
         <li v-for="user in post.Users">{{ user }}</li>
       </ul>
@@ -30,7 +31,7 @@ export default {
     id: String
   },
   methods: {
-    loadPostList() {
+    loadPostToEdit() {
       if (this.$route.params.id !== "new") {
         editing = true;
         request.get("/posts/" + this.$route.params.id).then(response => {
@@ -58,7 +59,7 @@ export default {
     }
   },
   created() {
-    this.loadPostList();
+    this.loadPostToEdit();
   }
 }
 </script>

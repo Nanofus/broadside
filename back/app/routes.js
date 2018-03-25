@@ -82,25 +82,27 @@ module.exports = (app, passport) => {
 			});
 	});
 
-	router.post('/write/:id', (req, res) => {
-		if (req.params.id == "new") {
-			connection.query(`
-				INSERT INTO Post
-				VALUES ()
-				`, (err, rows) => {
-					if (!err)
-						res.json(rows);
-					else
-						res.json({ message: false });
-				});
-		} else {
+	router.post('/write/:id',
+		passport.authenticate('local', { successRedirect: '/', failureRedirect: '/login' },
+			(req, res) => {
+				if (req.params.id == "new") {
+					connection.query(`
+						INSERT INTO Post
+						VALUES ()
+						`, (err, rows) => {
+							if (!err)
+								res.json(rows);
+							else
+								res.json({ message: false });
+						});
+				} else {
 
-		}
-	});
+				}
+			});
 
-	app.use('/api', router);
+		app.use('/api', router);
 
-};
+	};
 
 // route middleware to make sure
 function isLoggedIn(req, res, next) {
