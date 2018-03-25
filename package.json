@@ -6,29 +6,33 @@
   "scripts": {
     "build": "npm run style & webpack",
     "start": "npm run build & node server.js",
-    "style": "node-sass scss/style.scss public/style.css"
+    "style": "node-sass src/scss/style.scss public/style.css"
   },
   "dependencies": {
-    "axios": "^0.16.2",
+    "axios": "^0.18.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.2",
-    "connect-history-api-fallback": "^1.4.0",
+    "connect-history-api-fallback": "^1.5.0",
     "cookie-parser": "^1.4.3",
-    "express": "^4.16.2",
+    "express": "^4.16.3",
     "express-session": "^1.15.6",
     "mysql": "^2.15.0",
-    "passport": "^0.3.2",
+    "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "vue": "^2.5.2",
-    "vue-router": "^2.8.1"
+    "vue": "^2.5.16",
+    "vue-router": "^3.0.1"
   },
   "devDependencies": {
-    "connect": "^3.6.5",
-    "node-sass": "^4.5.3",
+    "connect": "^3.6.6",
+    "css-loader": "^0.28.11",
+    "node-sass": "^4.8.3",
+    "sass-loader": "^6.0.7",
+    "style-loader": "^0.20.3",
     "vue-html-loader": "^1.2.4",
-    "vue-loader": "^12.2.2",
-    "vue-template-compiler": "^2.5.2",
-    "webpack": "^2.7.0"
+    "vue-loader": "^14.2.2",
+    "vue-template-compiler": "^2.5.16",
+    "webpack": "^4.2.0",
+    "webpack-cli": "^2.0.13"
   },
   "repository": {
     "type": "git",

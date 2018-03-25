@@ -1,18 +1,16 @@
+const path = require('path');
+
 module.exports = {
-    entry: "./front.js",
+    entry: "./src/front.js",
     output: {
-        path: __dirname + "/public",
+        path: path.resolve(__dirname, "public"),
         filename: "bundle.js"
     },
     module: {
-        loaders: [
-            {
-              test: /\.css$/,
-              loader: "style!css"
-            },
+        rules: [
             {
               test: /\.vue$/,
-              loader: 'vue-loader'
+              use: 'vue-loader'
             }
         ]
     },
