@@ -30,8 +30,6 @@ router.get('/', isLoggedIn, (req, res) => {
 // Add POST - /api/login
 router.post('/login', (req, res) => {
   connection.query("SELECT * FROM User WHERE Username = ?",[req.body.username], (err, rows) => {
-    let user = rows[0];
-
     if (err) {
       res.status(401).json({ message: err });
       return;
@@ -43,6 +41,7 @@ router.post('/login', (req, res) => {
     }
 
     // if the user is found but the password is wrong
+    let user = rows[0];
     if (!bcrypt.compareSync(req.body.password, user.Password)) {
       res.status(401).json({ message: 'Bad credentials' });
       return;

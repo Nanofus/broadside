@@ -9,11 +9,9 @@
     </form>
     <div v-else>
       Hello {{ $store.state.authUser.username }}!
-      <pre>I am the secret content, I am shown only when the use is connected.</pre>
-      <p><i>You can also refresh this page, you'll still be connected!</i></p>
       <button @click="logout">Logout</button>
     </div>
-    <p><nuxt-link to="/secret">Super secret page</nuxt-link></p>
+    <p><nuxt-link to="/write/new">Write a new post</nuxt-link></p>
   </div>
 </template>
 
@@ -53,11 +51,5 @@ export default {
 </script>
 
 <style lang="scss">
-.container {
-  padding: 100px;
-}
-.error {
-  color: red;
-}
 
 </style>
