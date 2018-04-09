@@ -1,47 +1,34 @@
 {
   "name": "broadside",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A lightweight CMS for collaborative publishing",
-  "main": "app.js",
+  "author": "Ville Talonpoika <talonvi@gmail.com>",
+  "private": true,
   "scripts": {
-    "build": "npm run style & webpack",
-    "start": "npm run build & node back/server.js",
-    "style": "node-sass front/scss/style.scss public/style.css"
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "precommit": "npm run lint"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "@nuxtjs/axios": "^5.3.1",
+    "@nuxtjs/toast": "^3.0.0",
     "bcrypt-nodejs": "0.0.3",
-    "body-parser": "^1.18.2",
-    "connect-history-api-fallback": "^1.5.0",
-    "cookie-parser": "^1.4.3",
+    "body-parser": "^1.17.2",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
     "mysql": "^2.15.0",
-    "passport": "^0.4.0",
-    "passport-local": "^1.0.0",
-    "vue": "^2.5.16",
-    "vue-router": "^3.0.1"
+    "nuxt": "latest"
   },
   "devDependencies": {
-    "connect": "^3.6.6",
-    "css-loader": "^0.28.11",
+    "babel-eslint": "^8.2.1",
+    "eslint": "^4.15.0",
+    "eslint-friendly-formatter": "^3.0.0",
+    "eslint-loader": "^1.7.1",
+    "eslint-plugin-vue": "^4.0.0",
     "node-sass": "^4.8.3",
-    "sass-loader": "^6.0.7",
-    "style-loader": "^0.20.3",
-    "vue-html-loader": "^1.2.4",
-    "vue-loader": "^14.2.2",
-    "vue-template-compiler": "^2.5.16",
-    "webpack": "^4.2.0",
-    "webpack-cli": "^2.0.13"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Nanofus/broadside.git"
-  },
-  "author": "Ville Talonpoika",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Nanofus/broadside/issues"
-  },
-  "homepage": "https://github.com/Nanofus/broadside#readme"
+    "sass-loader": "^6.0.7"
+  }
 }
