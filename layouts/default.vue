@@ -1,10 +1,8 @@
 <template>
-  <div>
-    <header>
-      <div id="header-image"></div>
-    </header>
+  <div id="app">
+    <navigation></navigation>
     <main>
-      <nuxt/>
+      <nuxt></nuxt>
     </main>
     <footer>
       Powered by <a href="https://github.com/nanofus/broadside">Broadside</a>
@@ -12,8 +10,15 @@
   </div>
 </template>
 
-<style lang="scss">
+<script>
+import navigation from '~/components/navigation.vue'
 
+export default {
+  components: {navigation}
+}
+</script>
+
+<style lang="scss">
 $text-color: #333;
 $dim-text-color: #bdbdbd;
 $background-color: #FFF;
@@ -68,39 +73,6 @@ body {
   span.dim-text {
     color: $dim-text-color;
     font-size: $small-font-size;
-  }
-
-  header {
-    margin: 0 auto 1rem auto;
-
-    #header-image {
-      margin: auto;
-
-      height: 12.5rem;
-      width: 75rem;
-      background-image: url("~/assets/images/header.png");
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center center;
-    }
-
-    #main-menu {
-      width: 75rem;
-      margin: auto;
-
-      li {
-        display: inline;
-        list-style-type: none;
-        padding-right: 2rem;
-      }
-    }
-
-    #user-info {
-      right: 0;
-
-      display: inline-block;
-    }
-
   }
 
   main {

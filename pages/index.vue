@@ -2,7 +2,6 @@
   <div class="container">
     <h1>Please login to see the secret content</h1>
     <form v-if="!$store.state.authUser" @submit.prevent="login">
-      <p class="error" v-if="formError">{{ formError }}</p>
       <p><i>To login, use <b>demo</b> as username and <b>demo</b> as password.</i></p>
       <p>Username: <input type="text" v-model="formUsername" name="username" /></p>
       <p>Password: <input type="password" v-model="formPassword" name="password" /></p>
@@ -36,10 +35,8 @@ export default {
         })
         this.formUsername = ''
         this.formPassword = ''
-        this.formError = null
         this.$toast.success('Login successful')
       } catch (e) {
-        this.formError = e.message
         this.$toast.error('Login failed: ' + e.message);
       }
     },
@@ -48,7 +45,6 @@ export default {
         await this.$store.dispatch('logout')
         this.$toast.success('Logout successful')
       } catch (e) {
-        this.formError = e.message
         this.$toast.error('Logout failed: ' + e.message);
       }
     }

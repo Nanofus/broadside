@@ -6,6 +6,7 @@ const router = express.Router();
 const path = require('path');
 const mysql = require('mysql');
 const config = require('../config');
+const bcrypt = require('bcrypt-nodejs');
 const connection = mysql.createConnection(config.db.connection);
 connection.query('USE ' + config.db.database);
 
@@ -23,17 +24,34 @@ router.use((req, res, next) => {
 // API root
 
 router.get('/', isLoggedIn, (req, res) => {
-  res.json({ message: 'hooray! welcome to our api!', user: req.session.authUser });
+  res.json({ message: 'This is the Broadside API!', user: req.session.authUser });
 });
 
 // Add POST - /api/login
 router.post('/login', (req, res) => {
-  if (req.body.username === 'demo' && req.body.password === 'demo') {
-    req.session.authUser = { username: 'demo' }
-    return res.json({ username: 'demo' })
-  }
-  res.status(401).json({ message: 'Bad credentials' })
-})
+  connection.query("SELECT * FROM User WHERE Username = ?",[req.body.username], (err, rows) => {
+    let user = rows[0];
+
+    if (err) {
+      res.status(401).json({ message: err });
+      return;
+    }
+
+    if (!rows.length) {
+      res.status(401).json({ message: 'No user found' });
+      return;
+    }
+
+    // if the user is found but the password is wrong
+    if (!bcrypt.compareSync(req.body.password, user.Password)) {
+      res.status(401).json({ message: 'Bad credentials' });
+      return;
+    }
+
+    // all is well, return successful user
+    return res.json({ username: user.Username, role: user.Role });
+  });
+});
 
 // Add POST - /api/logout
 router.post('/logout', (req, res) => {
@@ -42,7 +60,31 @@ router.post('/logout', (req, res) => {
 })
 
 router.post('/signup', (req, res) => {
-  res.json({ message: 'hooray! welcome to our api!' });
+  connection.query("SELECT * FROM User WHERE Username = ?",[username], (err, rows) => {
+    if (err) {
+      res.status(401).json({ message: err });
+      return;
+    }
+
+    if (rows.length) {
+      res.status(401).json({ message: 'Username already taken' });
+      return;
+    }
+
+    // if there is no user with that username
+    // create the user
+    let newUserMysql = {
+      Username: req.body.username,
+      Password: bcrypt.hashSync(req.body.password, null, null),
+      Role: 3
+    };
+
+    var insertQuery = "INSERT INTO User ( Username, Password, Role ) values (?,?,?)";
+    connection.query(insertQuery,[newUserMysql.Username, newUserMysql.Password, newUserMysql.Role], (err, rows) => {
+      newUserMysql.Id = rows.insertId;
+      return res.json({ username: newUserMysql.Username, role: newUserMysql.Role });
+    });
+  });
 });
 
 router.get('/user-data', (req, res) => {
