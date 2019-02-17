@@ -2,13 +2,19 @@ const express = require('express');
 
 // Create express router
 const router = express.Router();
-
 const path = require('path');
-const mysql = require('mysql');
 const config = require('../config');
 const bcrypt = require('bcrypt-nodejs');
-const connection = mysql.createConnection(config.db.connection);
-connection.query('USE ' + config.db.database);
+
+const { Client } = require('pg');
+const connection = new Client({
+  user: config.db.connection.user,
+  host: config.db.connection.host,
+  database: config.db.database,
+  password: config.db.connection.password,
+  port: config.db.connection.port,
+})
+await connection.connect()
 
 // Transform req & res to have the same API as express
 // So we can use res.status() & res.json()

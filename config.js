@@ -3,7 +3,8 @@ module.exports = {
         'connection': {
             'host': 'localhost',
             'user': 'root',
-            'password': 'admin'
+            'password': 'admin',
+            'port': 5432
         },
         'database': 'broadside'
     }
